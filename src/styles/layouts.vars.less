@@ -1,0 +1,22 @@
+// layouts 自定义
+
+
+@headerHeight: 50px; // 顶部栏高度
+@headerBgColor: #f8f8f8; // 顶部栏背景色
+@asideMinWidth: 0px; // 菜单栏最小宽度
+@asideMaxWidth: 200px; // 菜单栏最大宽度
+@asideBgColor: #545c64; // 菜单栏背景色
+@asideTextColor: #ffffff; // 菜单栏字体色
+@asideActiveTextColor: #ffd04b; // 菜单栏选中字体色
+
+
+:export { // js中共享的变量
+  asideIsExpend: true; // 菜单栏的默认展开状态
+  headerHeight: @headerHeight;
+  headerBgColor: @headerBgColor;
+  asideMinWidth: @asideMinWidth;
+  asideMaxWidth: @asideMaxWidth;
+  asideBgColor: @asideBgColor;
+  asideTextColor: @asideTextColor;
+  asideActiveTextColor: @asideActiveTextColor;
+}
