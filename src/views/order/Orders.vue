@@ -65,7 +65,15 @@ const initData = async (page = 0) => {
     delete params.date
 
     // todo 模拟请求完成 设置列表数据
-    tableData.value = [{}];
+    tableData.value = [{
+      code: "TS10086",
+      num: 3,
+      amounts: 300,
+      status: 1,
+      linkPhone: 13188888888,
+      memo: "客服说可以",
+      createdAt: Date.now(),
+    }];
 
     // 设置分页参数的当前分页数和总数据条数
     pageHelper.updatePageMeta(1, 1)
@@ -183,7 +191,7 @@ const showModal = (actionType, row = {}) => {
     <ElTableColumn prop="code" label="订单号" :min-width="200" align="center"></ElTableColumn>
     <ElTableColumn prop="num" label="数量" :min-width="80" align="center"></ElTableColumn>
     <ElTableColumn prop="amounts" label="总价" :min-width="100" align="center">
-      <template v-slot="{row}">{{ (row.totalAmount || 0) / 100 }}元</template>
+      <template v-slot="{row}">{{ row.amounts || 0 }}元</template>
     </ElTableColumn>
     <ElTableColumn prop="status" label="状态" :min-width="80" align="center">
       <template v-slot="{row}">
@@ -196,9 +204,9 @@ const showModal = (actionType, row = {}) => {
       </template>
     </ElTableColumn>
 
-    <ElTableColumn prop="serviceMemo" label="客服备注" :min-width="160"></ElTableColumn>
-    <ElTableColumn prop="status" label="创建时间" :min-width="180" align="center">
-      <template v-slot="{row}">{{ moment(row.createdTime).format('YYYY-MM-DD HH:mm:ss') }}</template>
+    <ElTableColumn prop="memo" label="客服备注" :min-width="160"></ElTableColumn>
+    <ElTableColumn prop="time" label="创建时间" :min-width="180" align="center">
+      <template v-slot="{row}">{{ moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss') }}</template>
     </ElTableColumn>
     <ElTableColumn fixed="right" prop="action" label="操作" :min-width="160" align="center">
       <template v-slot="{row}">
