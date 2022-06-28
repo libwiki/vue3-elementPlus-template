@@ -35,14 +35,11 @@ npm run build
 
 ### 路由```meta```页面配置说明
 
-> 页面路由的```meta```参数配置均在```App.vue```中使用到，如果需要自定义可自行编辑逻辑
 
 ```js
 const meta = {
-    title: "首页", // 标题栏
-    // noToken: true, // 无需登录验证的界面
-    // pageStyle:{}, // 页面默认样式
-    // pageBgColor, // 页面背景色（会覆盖pageStyle的backgroundColor）
+    title: "首页", // 标题 在```src/layouts/Main.vue```文件中使用
+    // noToken: true, // 无需登录验证的界面 （路由拦截中使用）
 }
 ```
 
