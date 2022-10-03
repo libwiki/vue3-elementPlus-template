@@ -1,4 +1,4 @@
-import Http from "../Http";
+import {Http} from "../Http";
 
 // 订单管理 以下接口截取至项目（暂时使用）
 export default {

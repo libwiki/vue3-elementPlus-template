@@ -1,5 +1,5 @@
-import {reactive, ref, toRaw} from "vue"
-import {deepClone} from "../utils/helpers";
+import {reactive, toRaw} from "vue"
+import _ from "lodash"
 
 /**
  * 分页参数处理钩子
@@ -44,7 +44,7 @@ export function usePageMeta(limit = 15) {
      * @returns {{count: number, limit: number, index: number, total_pages: number, isEnd: boolean}}
      */
     function getPageMeta(index) {
-        const params = deepClone(toRaw(pageMeta))
+        const params = _.cloneDeep(toRaw(pageMeta))
         if (index > 0) {
             params.index = index;
         }

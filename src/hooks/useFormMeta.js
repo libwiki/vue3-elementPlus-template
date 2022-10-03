@@ -1,5 +1,5 @@
-import {deepClone, isBoolean, isFunction} from "../utils/helpers";
-import {readonly, reactive, toRaw, ref} from "vue";
+import _ from "lodash"
+import {reactive, readonly, ref, toRaw} from "vue";
 
 /**
  * 表单数据处理钩子
@@ -18,15 +18,15 @@ export function useFormMeta(data = {}, rulesData = {}, show = false) {
         data,
     });
     // 原始数据拷贝恢复时使用
-    const _formData = readonly(deepClone(toRaw(formData)));
+    const _formData = readonly(_.cloneDeep(toRaw(formData)));
 
     const rules = reactive(rulesData)
 
     // 打开、关闭弹框
     const toggleModal = (show, data = {}) => {
-        formData.show = isBoolean(show) ? show : !formData.show;
+        formData.show = _.isBoolean(show) ? show : !formData.show;
         formData.data = Object.assign({}, toRaw(_formData).data, data); // 设置表单数据
-        if (formRef.value && isFunction(formRef.value.resetFields)) { // 重置表单的验证状态
+        if (formRef.value && _.isFunction(formRef.value.resetFields)) { // 重置表单的验证状态
             formRef.value.resetFields();
         }
         return formData.show;
@@ -35,7 +35,7 @@ export function useFormMeta(data = {}, rulesData = {}, show = false) {
     // 表单验证
     const onValidate = () => {
         return new Promise(resolve => {
-            if (formRef.value && isFunction(formRef.value.resetFields)) { // 重置表单的验证状态
+            if (formRef.value && _.isFunction(formRef.value.resetFields)) { // 重置表单的验证状态
                 formRef.value.validate((valid) => {
                     resolve(valid)
                 });
@@ -46,7 +46,7 @@ export function useFormMeta(data = {}, rulesData = {}, show = false) {
     }
     // 取表单数据
     const getFormData = () => {
-        return deepClone(toRaw(formData)).data;
+        return _.cloneDeep(toRaw(formData)).data;
     }
     return {
         formRef,

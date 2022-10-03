@@ -3,9 +3,10 @@ import {ref, toRaw} from "vue";
 import {useFormMeta} from "../../hooks/useFormMeta";
 import {ElMessage} from "element-plus";
 import {usePageMeta} from "../../hooks/usePageMeta";
+import _ from "lodash";
 import moment from "moment";
 import Order from "../../api/modules/Order";
-import {deepClone, isEmpty} from "../../utils/helpers";
+import {isEmpty} from "../../utils/helpers";
 
 // 分页请求参数hooks
 const pageHelper = usePageMeta();
@@ -38,11 +39,11 @@ const paramsData = ref({
   statuses: Object.keys(orderStatusEnum).map(Number), // 状态
   date: [],
 });
-const _paramsData = deepClone(toRaw(paramsData.value)); // 原始参数（用于重置功能）
+const _paramsData = _.cloneDeep(toRaw(paramsData.value)); // 原始参数（用于重置功能）
 
 // 重置筛选参数
 const onReset = () => {
-  paramsData.value = deepClone(_paramsData);
+  paramsData.value = _.cloneDeep(_paramsData);
   initData(1)
 }
 
