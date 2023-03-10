@@ -58,7 +58,7 @@ export function isFalse(value) {
 export function isTrue(value) {
     if (_.isBoolean(value)) {
         return value;
-    } else if (_.isNull(value)) {
+    } else if (_.isNull(value) || _.isUndefined(value)) {
         return false;
     } else if (isNumeric(value)) {
         return Number(value) !== 0;

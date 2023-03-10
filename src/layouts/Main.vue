@@ -2,23 +2,24 @@
 import {ref} from 'vue'
 import {ArrowDown, Avatar, Expand, Fold} from "@element-plus/icons-vue"
 import cssVars from "../styles/layouts.vars.less?export"
-import {isNotEmpty, isTrue, ToastConfirm} from "../utils/helpers";
-import {useRouterToMenu} from "../hooks/useRouterToMenu";
+import {isNotEmpty, isTrue, ToastConfirm} from "@/utils/helpers";
+import {useRouterToMenu} from "@/hooks/useRouterToMenu";
 import MenuItem from "./components/MenuItem.vue";
 import {useRouter} from "vue-router";
-import Config from "../config/Config";
-import {useUserInfoStore} from "../store/userStore";
-import {removeUserInfo} from "../hooks/user/useUserLogin";
+import Configs from "../config/Configs";
+import {useUserStore} from "@/store/userStore";
 import {useWindowSize} from "@vant/use";
+import AuthHelpers from "@/utils/AuthHelpers";
 
 const router = useRouter();
 
-const userStore = useUserInfoStore()
+const userStore = useUserStore()
 const onLogout = async () => {
   if (!await ToastConfirm('确定退出登录吗？')) {
     return
   }
-  removeUserInfo(); // 退出登录并自动跳转到登录页面
+  AuthHelpers.removeUserInfo();
+  await router.replace({name: Configs.loginRouteName})
   // ElMessage.success('模拟退出成功')
 }
 
@@ -54,7 +55,7 @@ const onMenuSelect = (name) => {
           <!--</div>-->
           <div :class="`tw-truncate transition-all ${isExpend?'tw-w-full':'tw-w-0'}`">
             <div class="tw-text-center">
-              {{ Config.siteName }}
+              {{ Configs.siteName }}
             </div>
           </div>
         </div>
@@ -94,7 +95,7 @@ const onMenuSelect = (name) => {
                     <Avatar/>
                   </el-icon>
                 </div>
-                <div class="tw-pr-5">{{ userStore.userInfo.nickname }}</div>
+                <div class="tw-pr-5">{{ userStore.userinfo.info.nickname }}</div>
                 <el-icon class="tw-text-16">
                   <ArrowDown/>
                 </el-icon>

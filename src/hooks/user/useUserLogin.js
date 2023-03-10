@@ -1,9 +1,8 @@
-import {isEmpty, isPhone} from "../../utils/helpers";
-import Config from "../../config/Config";
+import {isEmpty, isPhone} from "@/utils/helpers";
+import Configs from "../../config/Configs";
 import {useRouter} from "vue-router";
 import router from "../../router"
 import User from "../../api/modules/User";
-import {useUserInfoStore} from "../../store/userStore";
 import {ElMessage} from "element-plus";
 
 const StoreUserInfoKey = 'pc_userinfo'; // 当前登录用户信息存贮的key
@@ -70,7 +69,7 @@ export function getUserInfoWithStorage() {
 export function removeUserInfo(isReplace = true) {
     Storage.clear();
     if (isReplace) {
-        router.replace({name: Config.loginRouteName})
+        router.replace({name: Configs.loginRouteName})
     }
 }
 
@@ -78,7 +77,7 @@ export function removeUserInfo(isReplace = true) {
 export function useUserLogin() {
     // 路由实例的获取（路由跳转操作使用）
     const router = useRouter(); // 获取router对象
-    const userStore = useUserInfoStore(); // 保存用户登录信息的状态管理器
+    const userStore = {}; // 保存用户登录信息的状态管理器
 
     /**
      * initUserInfo2Vuex
@@ -181,7 +180,7 @@ export function useUserLogin() {
             saveUserInfo(data)
             ElMessage.success('登录成功');
             if (replace) { // 跳转首页
-                await router.replace({name: Config.homeRouteName})
+                await router.replace({name: Configs.homeRouteName})
             }
             return true;
         } catch (e) {
@@ -209,7 +208,7 @@ export function useUserLogin() {
             saveUserInfo(res.data || {})
             ElMessage.success('登录成功');
             if (replace) {
-                await router.replace({name: Config.homeRouteName})
+                await router.replace({name: Configs.homeRouteName})
             }
             return true;
         } catch (e) {

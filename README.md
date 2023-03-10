@@ -45,7 +45,7 @@ const meta = {
 
 ### 基础配置文件与导航菜单配置
 
-* 1、```src/config/Config.js```为项目全局基础配置，项目中将直接引用该文件。配置的上游数据来源于项目根目录下的```.env.*```
+* 1、```src/config/Configs.js```为项目全局基础配置，项目中将直接引用该文件。配置的上游数据来源于项目根目录下的```.env.*```
 
 ### axios网络请求库的两次封装
 
@@ -89,7 +89,8 @@ const meta = {
 ### 内置的hooks说明```src/hooks/```
 
 * ```usePageMeta```分页参数处理
-* ```useFormMeta```表单数据处理
+* ```useSimpleFormMeta```简单的表单数据，仅仅实现了重置功能
+* ```useFormMeta```繁杂的表单数据处理钩子，实现了重置、验证、弹框开关功能
 * ```useRouterToMenu```路由文件转换为菜单栏（在此可自定义菜单，比如将服务端返回的配置设置为菜单） 
 
 

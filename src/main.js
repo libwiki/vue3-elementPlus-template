@@ -1,6 +1,7 @@
 import {createApp} from 'vue'
 import App from './App.vue'
 import "nprogress/nprogress.css"
+import "./styles/preflight.css"
 import 'element-plus/dist/index.css'
 import ElementPlus, {ElMessage} from 'element-plus'
 import locale from 'element-plus/es/locale/lang/zh-cn'

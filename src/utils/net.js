@@ -1,11 +1,11 @@
 import axios from 'axios';
-import Config from "../config/Config";
+import Configs from "../config/Configs";
 import {getRefreshToken, getToken, removeUserInfo, setRefreshToken, setToken} from "../hooks/user/useUserLogin";
 import qs from "qs";
 
 // 创建一个 axios请求实例（用于接口的数据请求工具）
 const service = axios.create({
-    baseURL: Config.baseUrl,
+    baseURL: Configs.baseUrl,
     timeout: 5000,
     paramsSerializer(data) {
         return qs.stringify(data, {arrayFormat: 'indices'})
@@ -16,12 +16,12 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         const token = getToken();
-        const url = config.url || "";
-        if (token) config.headers["Authorization"] = `Bearer ${token}`;
+        const url = Configs.url || "";
+        if (token) Configs.headers["Authorization"] = `Bearer ${token}`;
         if (url.indexOf('/token/refresh') > -1) { // 刷新token
             const refreshToken = getRefreshToken()
             if (refreshToken) {
-                config.headers['refreshToken'] = refreshToken;
+                Configs.headers['refreshToken'] = refreshToken;
             }
         }
 
@@ -51,7 +51,7 @@ service.interceptors.response.use(
     error => { // 下列进行token的自动刷新处理（可选）
         const response = error.response || {}
         //如果是刷新token接口请求失败
-        if (response.config && response.config.url.indexOf("/token/refresh") !== -1) {
+        if (response.config && response.Configs.url.indexOf("/token/refresh") !== -1) {
             //清除登录信息 返回登录页面
             removeUserInfo(true)
             return Promise.reject(response.data || error);
@@ -65,7 +65,7 @@ service.interceptors.response.use(
                         // 重新设置token
                         setToken(resp.data.token)
                         setRefreshToken(resp.data.refreshToken)
-                        config.headers["Authorization"] = `Bearer ${resp.data.token}`;
+                        Configs.headers["Authorization"] = `Bearer ${resp.data.token}`;
                         // 已经刷新了token，将所有队列中的请求进行重试
                         retryRequests.forEach((cb) => cb());
                         // 重试完清空这个队列

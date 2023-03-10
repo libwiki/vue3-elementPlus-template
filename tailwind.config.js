@@ -13,6 +13,9 @@ for (let i = 1; i <= 96; i++) {
 }
 module.exports = {
     prefix: 'tw-',
+    corePlugins: {
+        preflight: false, // 基础按钮样式与组件库的样式冲突问题：https://juejin.cn/post/7084614555598323719
+    },
     content: [
         './index.html',
         './src/**/*.{vue,less,css,html}',

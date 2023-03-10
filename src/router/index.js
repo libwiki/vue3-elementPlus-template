@@ -1,9 +1,9 @@
 import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
 import before from "./before"; // 公共前缀页面路由
 import v1 from "./v1.js"; // 控制台页面路由
-import Config from "../config/Config";
-import {isEmpty, isFalse} from "../utils/helpers";
-import {getToken, removeUserInfo} from "../hooks/user/useUserLogin";
+import Configs from "../config/Configs";
+import {isEmpty, isFalse} from "@/utils/helpers";
+import {getToken, removeUserInfo} from "@/hooks/user/useUserLogin";
 
 
 // 创建路由
@@ -16,9 +16,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // 设置页面的标题
     if (isEmpty(to.meta.title)) {
-        document.title = Config.siteName;
+        document.title = Configs.siteName;
     } else {
-        document.title = `${to.meta.title} | ${Config.siteName}`;
+        document.title = `${to.meta.title} | ${Configs.siteName}`;
     }
     if (isFalse(to.meta.noToken) && isEmpty(getToken())) {
         return removeUserInfo()

@@ -1,16 +1,15 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from "path"
-
-// 开发环境使用import导入 CommonJS模块导入
-// import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
+import legacy from '@vitejs/plugin-legacy'
 // 在CSS和Javascript之间共享变量
 import ViteCSSExportPlugin from "vite-plugin-css-export";
-
+// 开发环境使用import导入 CommonJS模块导入
+import {viteCommonjs} from '@originjs/vite-plugin-commonjs'
 // Convert CommonJS modules to ES6
-// https://github.com/rollup/rollup-plugin-commonjs
-import commonjs from 'rollup-plugin-commonjs';
-import nodeResolve from 'rollup-plugin-node-resolve';
+// https://github.com/rollup/plugins/tree/6eb661692f5b8d8fc4e3b61ff748f49fab1e82ec/packages/node-resolve
+import commonjs from '@rollup/plugin-commonjs';
+import {nodeResolve} from '@rollup/plugin-node-resolve';
 
 
 // https://cn.vitejs.dev/config/
@@ -18,12 +17,14 @@ export default defineConfig({
     base: './',
     plugins: [
         vue(),
-        nodeResolve({
-            jsnext: true,
-            main: true
+        nodeResolve(),
+        viteCommonjs(), // 在commonjs插件之前
+        commonjs(),
+        legacy({ // 浏览器兼容
+            targets: ['ie >= 11'],
+            additionalLegacyPolyfills: ['regenerator-runtime/runtime']
         }),
         commonjs(),
-        // viteCommonjs(),
         ViteCSSExportPlugin(),
     ],
     build: {
