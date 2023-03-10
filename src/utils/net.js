@@ -1,25 +1,30 @@
 import axios from 'axios';
 import Configs from "../config/Configs";
-import {getRefreshToken, getToken, removeUserInfo, setRefreshToken, setToken} from "../hooks/user/useUserLogin";
-import qs from "qs";
+import AuthHelpers from "@/utils/AuthHelpers";
+import router from "@/router";
 
 // 创建一个 axios请求实例（用于接口的数据请求工具）
 const service = axios.create({
     baseURL: Configs.baseUrl,
     timeout: 5000,
-    paramsSerializer(data) {
-        return qs.stringify(data, {arrayFormat: 'indices'})
-    },
+    // paramsSerializer: {
+    //     serialize(params: Record<string, any>) {
+    //         return qs.stringify(params, {arrayFormat: 'indices'})
+    //     }
+    // }
 });
 
 // 发送请求的前置处理
 service.interceptors.request.use(
     config => {
-        const token = getToken();
+        const token = AuthHelpers.getToken();
+        if (!config.params) {
+            config.params = {}
+        }
         const url = Configs.url || "";
         if (token) Configs.headers["Authorization"] = `Bearer ${token}`;
         if (url.indexOf('/token/refresh') > -1) { // 刷新token
-            const refreshToken = getRefreshToken()
+            const refreshToken = AuthHelpers.getRefreshToken()
             if (refreshToken) {
                 Configs.headers['refreshToken'] = refreshToken;
             }
@@ -51,9 +56,10 @@ service.interceptors.response.use(
     error => { // 下列进行token的自动刷新处理（可选）
         const response = error.response || {}
         //如果是刷新token接口请求失败
-        if (response.config && response.Configs.url.indexOf("/token/refresh") !== -1) {
+        if (response.config && response.config.url.indexOf("/token/refresh") !== -1) {
             //清除登录信息 返回登录页面
-            removeUserInfo(true)
+            AuthHelpers.removeUserInfo()
+            router.replace({name: Configs.loginRouteName})
             return Promise.reject(response.data || error);
         } else {
             if (response.status === 401) { // 此处是401时进行token刷新（应该与服务端进行约定好）
@@ -63,8 +69,8 @@ service.interceptors.response.use(
                     return service.post("/token/refresh").then((resp) => {
                         // resp.data={token,refreshToken}
                         // 重新设置token
-                        setToken(resp.data.token)
-                        setRefreshToken(resp.data.refreshToken)
+                        AuthHelpers.setToken(resp.data.token)
+                        AuthHelpers.setRefreshToken(resp.data.refreshToken)
                         Configs.headers["Authorization"] = `Bearer ${resp.data.token}`;
                         // 已经刷新了token，将所有队列中的请求进行重试
                         retryRequests.forEach((cb) => cb());

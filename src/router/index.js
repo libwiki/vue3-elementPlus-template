@@ -3,7 +3,7 @@ import before from "./before"; // 公共前缀页面路由
 import v1 from "./v1.js"; // 控制台页面路由
 import Configs from "../config/Configs";
 import {isEmpty, isFalse} from "@/utils/helpers";
-import {getToken, removeUserInfo} from "@/hooks/user/useUserLogin";
+import AuthHelpers from "@/utils/AuthHelpers";
 
 
 // 创建路由
@@ -20,8 +20,10 @@ router.beforeEach((to, from, next) => {
     } else {
         document.title = `${to.meta.title} | ${Configs.siteName}`;
     }
-    if (isFalse(to.meta.noToken) && isEmpty(getToken())) {
-        return removeUserInfo()
+    if (isFalse(to.meta.noToken) && isEmpty(AuthHelpers.getToken())) {
+         AuthHelpers.removeUserInfo()
+        next({name: Configs.loginRouteName});
+        return
     }
     next();
 });

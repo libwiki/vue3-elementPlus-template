@@ -1,7 +1,8 @@
 <script setup>
-import {useUserLogin} from "./hooks/user/useUserLogin";
+// 初始化登录用户的信息到store中
+import AuthHelpers from "@/utils/AuthHelpers";
 
-useUserLogin().initUserInfo(false); // 初始化登录用户的信息到store中
+AuthHelpers.syncUserinfo(false);
 </script>
 
 <template>

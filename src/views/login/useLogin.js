@@ -1,6 +1,6 @@
 import {useSimpleFormMeta} from "@/hooks/useSimpleFormMeta";
 import {ElMessage} from "element-plus";
-import {isEmpty} from "@/utils/helpers";
+import {isEmpty, isPhone} from "@/utils/helpers";
 import User from "@/api/modules/User";
 import {useRouter} from "vue-router";
 import Configs from "@/config/Configs";
@@ -16,6 +16,7 @@ import AuthHelpers from "@/utils/AuthHelpers";
  * src/login{ // 登录、注册页面
  *     hooks{ // 这是逻辑分离文件夹
  *         useLogin.ts
+ *         useLogin.ts
  *         useRegister.ts
  *     }
  *     kits{ // 这是页面组件更细化的分离(如果页面过大，则此文件夹为当前登录、注册页面功能独有的组件分块)
@@ -26,9 +27,9 @@ import AuthHelpers from "@/utils/AuthHelpers";
  * }
  */
 export function useLogin() {
-    const form = useSimpleFormMeta<IUserLoginFormData>({
-        principal: "system",
-        password: "111111",
+    const form = useSimpleFormMeta({
+        username: "13188888888",
+        code: "123456",
         captcha: "",
     });
     const router = useRouter();
@@ -45,9 +46,16 @@ export function useLogin() {
                     return
                 }
                 const params = form.getFormData();
-                const res = await User.login(params)
-                if (!res.result) { // 登录失败
-                    throw new Error(res.message);
+                // const res = await User.login(params)
+                // if (!res.result) { // 登录失败
+                //     throw new Error(res.message);
+                // }
+                const res = { // 模拟登录用户信息
+                    token: params.username, // 登录用户token
+                    refreshToken: params.username, // 用于刷新登录token的token
+                    data:{
+                        nickname: params.username, // 昵称
+                    }
                 }
                 // 存贮用户登录信息
                 AuthHelpers.setToken(res.data.token);
@@ -65,13 +73,10 @@ export function useLogin() {
         // 表单检测
         check() {
             try {
-                if (isEmpty(formData.value.principal)) {
+                if (isEmpty(formData.value.username)) {
                     throw new Error("请填写用户名")
                 }
-                if (isEmpty(formData.value.password)) {
-                    throw new Error("请填写密码")
-                }
-                if (isEmpty(formData.value.captcha)) {
+                if (isEmpty(formData.value.code)) {
                     throw new Error("请填写验证码")
                 }
                 return true
@@ -80,6 +85,18 @@ export function useLogin() {
                 return false
             }
         },
+        async sendCode(phone) {
+            try {
+                if (!isPhone(phone)) {
+                    throw new Error('请输入正确的手机号码')
+                }
+                ElMessage.success("发送验证码成功");
+                return true
+            } catch (e) {
+                ElMessage.error(e.message)
+                return false
+            }
+        }
 
     }
 }
