@@ -18,8 +18,7 @@ const onLogout = async () => {
   if (!await ToastConfirm('确定退出登录吗？')) {
     return
   }
-  AuthHelpers.removeUserInfo();
-  await router.replace({name: Configs.loginRouteName})
+  AuthHelpers.removeUserinfo();
   // ElMessage.success('模拟退出成功')
 }
 

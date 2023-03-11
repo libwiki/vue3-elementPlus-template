@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import {Ticket, UserFilled} from "@element-plus/icons-vue"
 import {useCountDown} from "@/hooks/useCountDown";
 import {useLogin} from "@/views/login/useLogin";

@@ -1,5 +1,4 @@
 import _ from "lodash"
-import CryptoJS from "crypto-js"
 import {ElMessageBox} from "element-plus";
 
 export function canSetParams(method = 'get') {
@@ -22,20 +21,20 @@ export async function ToastConfirm(content = "确定删除吗？", title = '确�
     }
 }
 
-export function isPhone(value) {
+export function isPhone(value:string) {
     return /^1\d{10}$/.test(value);
 }
 
-export function isNotEmpty(value) {
+export function isNotEmpty(value:any) {
     return !isEmpty(value)
 }
 
 // 判断数据是否为空
-export function isEmpty(value) {
+export function isEmpty(value:any) {
     if (_.isUndefined(value) || _.isNull(value)) {
         return true;
     }
-    if (_.isString(value) && value.trim(value).length === 0) {
+    if (_.isString(value) && value.trim().length === 0) {
         return true;
     }
     if (_.isArray(value) && value.length === 0) {
@@ -50,12 +49,12 @@ export function isEmpty(value) {
     return false;
 }
 
-export function isFalse(value) {
+export function isFalse(value:any) {
     return !isTrue(value)
 }
 
 // 是否为true  0、'0'、false、'false'、为false
-export function isTrue(value) {
+export function isTrue(value:any) {
     if (_.isBoolean(value)) {
         return value;
     } else if (_.isNull(value) || _.isUndefined(value)) {
@@ -71,30 +70,6 @@ export function isTrue(value) {
 
 
 // 是否是number 或者 字符串形式的number  123、'123'均返回true
-export function isNumeric(value) {
+export function isNumeric(value:any) {
     return _.isNumber(Number(value));
-}
-
-export function aesEncrypt(key, data) {
-    const k = CryptoJS.enc.Utf8.parse(key);//16位
-    const iv = CryptoJS.enc.Utf8.parse(key);
-    const srcs = CryptoJS.enc.Utf8.parse(data);
-    const encrypted = CryptoJS.AES.encrypt(srcs, k, {
-        iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-    });
-    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
-}
-
-export function aesDecrypt(key, data) {
-    const k = CryptoJS.enc.Utf8.parse(key);
-    const iv = CryptoJS.enc.Utf8.parse(key);
-    const encryptedHexStr = CryptoJS.enc.Base64.parse(data);
-    const srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
-    const decrypt = CryptoJS.AES.decrypt(srcs, k, {
-        iv,
-        mode: CryptoJS.mode.CBC
-    });
-    return decrypt.toString(CryptoJS.enc.Utf8).toString();
 }

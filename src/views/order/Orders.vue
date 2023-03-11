@@ -1,12 +1,12 @@
 <script setup>
 import {ref, toRaw} from "vue";
-import {useFormMeta} from "../../hooks/useFormMeta";
+import {useFormMeta} from "@/hooks/useFormMeta";
 import {ElMessage} from "element-plus";
-import {usePageMeta} from "../../hooks/usePageMeta";
+import {usePageMeta} from "@/hooks/usePageMeta";
 import _ from "lodash";
 import moment from "moment";
 import Order from "../../api/modules/Order";
-import {isEmpty} from "../../utils/helpers";
+import {isEmpty} from "@/utils/helpers";
 
 // 分页请求参数hooks
 const pageHelper = usePageMeta();

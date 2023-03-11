@@ -1,4 +1,5 @@
 import _ from "lodash"
+import {IConfigs} from "@/types/configs";
 // 这里的env可以自动渠道.env.*文件的值
 // 本地开发环境取 .env.development文件
 // 正式打包环境取 .env.production文件
@@ -15,12 +16,13 @@ function getBaseUrl() {
 }
 
 // 配置信息
-const Configs = {
+const Configs: IConfigs = {
     isDev,
     debug: import.meta.env.VITE_DEBUG || false,
     baseUrl: getBaseUrl(),
     version: import.meta.env.VITE_VERSION || '1.0.0',
     siteName: import.meta.env.VITE_SITE_NAME || 'vue3-system-admin',
+    entryRouteName: import.meta.env.VITE_HOME_NAME || 'home',
     homeRouteName: import.meta.env.VITE_HOME_NAME || 'home',
     loginRouteName: import.meta.env.VITE_LOGIN_NAME || 'login',
 };

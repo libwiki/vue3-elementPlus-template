@@ -1,5 +1,7 @@
 ## Vue3 + ElementPlus基础模板
 
+> js版本请查看项目的js分支
+
 ### 在线预览地址
 
 <a target="_blank" href="https://libwiki.github.io/vue3-elementPlus-template/">https://libwiki.github.io/vue3-elementPlus-template/ </a>
@@ -45,13 +47,13 @@ const meta = {
 
 ### 基础配置文件与导航菜单配置
 
-* 1、```src/config/Configs.js```为项目全局基础配置，项目中将直接引用该文件。配置的上游数据来源于项目根目录下的```.env.*```
+* 1、```src/config/Configs.ts```为项目全局基础配置，项目中将直接引用该文件。配置的上游数据来源于项目根目录下的```.env.*```
 
 ### axios网络请求库的两次封装
 
-* 1、```src/utils/net.js```文件主要为```axios```的实例创建以及前置、后置处理
-* 2、```src/api/Http.js```文件为```axios```实例的易用性封装（实际进行网络请求会直接使用该模块）
-* 3、网络库的具体使用案例请参考：```src/api/modules/User.js````
+* 1、```src/utils/net.ts```文件主要为```axios```的实例创建以及前置、后置处理
+* 2、```src/api/Http.ts```文件为```axios```实例的易用性封装（实际进行网络请求会直接使用该模块）
+* 3、网络库的具体使用案例请参考：```src/api/modules/User.ts````
 
 ### 用户登录功能hooks参考
 

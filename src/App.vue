@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 // 初始化登录用户的信息到store中
 import AuthHelpers from "@/utils/AuthHelpers";
 

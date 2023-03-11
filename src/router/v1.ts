@@ -1,6 +1,7 @@
 import Main from "../layouts/Main.vue"
+import {RouteRecordRaw} from "vue-router";
 
-export default [
+const routes: RouteRecordRaw[] =  [
     {
         path: '/',
         name: '/',
@@ -53,4 +54,6 @@ export default [
     },
 
 
-]
+];
+
+export default routes

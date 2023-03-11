@@ -5,8 +5,8 @@ import {ref, toRaw} from "vue";
  * 简单的表单数据，仅仅实现了重置功能
  * @param data
  */
-export function useSimpleFormMeta(data) {
-    const formData = ref(_.cloneDeep(data))
+export function useSimpleFormMeta<T = any>(data: T) {
+    const formData = ref<T>(_.cloneDeep(data))
     const _value = _.cloneDeep(formData.value)
     return {
         formData, // 当前的数据 Ref<T>

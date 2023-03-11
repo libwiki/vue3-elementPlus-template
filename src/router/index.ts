@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
         document.title = `${to.meta.title} | ${Configs.siteName}`;
     }
     if (isFalse(to.meta.noToken) && isEmpty(AuthHelpers.getToken())) {
-         AuthHelpers.removeUserInfo()
+        AuthHelpers.removeUserinfo(false)
         next({name: Configs.loginRouteName});
         return
     }

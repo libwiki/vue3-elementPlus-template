@@ -1,10 +1,10 @@
 import {useSimpleFormMeta} from "@/hooks/useSimpleFormMeta";
 import {ElMessage} from "element-plus";
 import {isEmpty, isPhone} from "@/utils/helpers";
-import User from "@/api/modules/User";
 import {useRouter} from "vue-router";
 import Configs from "@/config/Configs";
 import AuthHelpers from "@/utils/AuthHelpers";
+import {EGender} from "@/api/modules/User";
 
 
 /**
@@ -50,21 +50,27 @@ export function useLogin() {
                 // if (!res.result) { // 登录失败
                 //     throw new Error(res.message);
                 // }
-                const res = { // 模拟登录用户信息
+                const data = { // 模拟登录用户信息
                     token: params.username, // 登录用户token
                     refreshToken: params.username, // 用于刷新登录token的token
-                    data:{
-                        nickname: params.username, // 昵称
+                    data: {
+                        id: 1,
+                        phone: params.username,
+                        headImg: '',
+                        name: params.username,
+                        nickname: params.username,
+                        sex: EGender.male,
+                        status: 1
                     }
                 }
                 // 存贮用户登录信息
-                AuthHelpers.setToken(res.data.token);
-                AuthHelpers.setRefreshToken(res.data.refreshToken);
-                AuthHelpers.setUserinfo(res.data);
+                AuthHelpers.setToken(data.token);
+                AuthHelpers.setRefreshToken(data.refreshToken);
+                AuthHelpers.setUserinfo(data.data);
                 AuthHelpers.syncUserinfo(false); // 同步用户信息到store中
 
-                ElMessage.success(`${res.data.nickname}！欢迎~`); // 展示欢迎词
-                return router.replace({name: Configs.homeRouteName}); // 跳转登录页面
+                ElMessage.success(`${data.data.nickname}！欢迎~`); // 展示欢迎词
+                return router.replace({name: Configs.entryRouteName}); // 跳转入口页面
             } catch (e) {
                 ElMessage.error(e.message)
             }
@@ -85,7 +91,7 @@ export function useLogin() {
                 return false
             }
         },
-        async sendCode(phone) {
+        async sendCode(phone: string) {
             try {
                 if (!isPhone(phone)) {
                     throw new Error('请输入正确的手机号码')

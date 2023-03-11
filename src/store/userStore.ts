@@ -1,11 +1,12 @@
 import {defineStore} from "pinia";
 import {reactive} from "vue";
 import AuthHelpers from "@/utils/AuthHelpers";
+import {EGender, IUserInfo} from "@/api/modules/User";
 
 // 用户登录信息
 
 export const useUserStore = defineStore("userInfo", () => {
-    const userinfo = reactive({
+    const userinfo = reactive<IUserStore>({
         token: "",
         refreshToken: "",
         info: {
@@ -14,8 +15,7 @@ export const useUserStore = defineStore("userInfo", () => {
             headImg: "",
             name: "",
             nickname: "",
-            email: "",
-            sex: 'male',
+            sex: EGender.male,
             status: 1,
         }
     });
@@ -26,14 +26,21 @@ export const useUserStore = defineStore("userInfo", () => {
         isLogin() {
             return userinfo.token.length > 0 || AuthHelpers.getToken()
         },
-        setToken(token) {
+        setToken(token:string) {
             userinfo.token = token;
         },
-        setRefreshToken(token) {
+        setRefreshToken(token:string) {
             userinfo.refreshToken = token;
         },
-        setUserinfo(data) {
+        setUserinfo(data:IUserInfo) {
             userinfo.info = data;
         }
     }
 });
+
+
+interface IUserStore {
+    token: string
+    refreshToken: string
+    info: IUserInfo
+}

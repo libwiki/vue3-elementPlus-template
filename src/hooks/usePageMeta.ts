@@ -22,7 +22,7 @@ export function usePageMeta(limit = 15) {
      * @param page {number}
      * @param count {number}
      */
-    function updatePageMeta(page, count = 0) {
+    function updatePageMeta(page: number, count = 0) {
         count = count || 0;
         if (page > 0 && page !== pageMeta.index) { // 当前的最新页码
             pageMeta.index = page;
@@ -43,14 +43,14 @@ export function usePageMeta(limit = 15) {
      * @param index {?number}
      * @returns {{count: number, limit: number, index: number, total_pages: number, isEnd: boolean}}
      */
-    function getPageMeta(index) {
+    function getPageMeta(index: number) {
         const params = _.cloneDeep(toRaw(pageMeta))
         if (index > 0) {
             params.index = index;
         }
-        delete params.isEnd
-        delete params.count
-        delete params.total_pages
+        // delete params.isEnd
+        // delete params.count
+        // delete params.total_pages
         return params
     }
 
