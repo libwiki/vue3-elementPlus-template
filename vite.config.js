@@ -24,11 +24,11 @@ export default defineConfig({
             targets: ['ie >= 11'],
             additionalLegacyPolyfills: ['regenerator-runtime/runtime']
         }),
-        commonjs(),
         ViteCSSExportPlugin(),
     ],
     build: {
         brotliSize: false,
+        sourcemap: true,
         commonjsOptions: {
             // include: [/design.config.js/], // 生产环境使用import导入 CommonJS模块导入
         }
@@ -55,6 +55,7 @@ export default defineConfig({
         ],
     },
     css: {
+        devSourcemap: true,
         preprocessorOptions: {
             less: {
                 javascriptEnabled: true,
